@@ -60,7 +60,7 @@ clean :
 	find . -name '*.o' -delete
 	find . -name '*.exe' -delete
 	find . -name '*~' -delete
-#   find ./output -name '*.txt' -delete
+	find ./output -name '*.txt' -delete
 
 deep-clean: clean
 	find . -name "*.stdout" -delete

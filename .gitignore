@@ -1,6 +1,7 @@
 *.o
 *.exe
 bin/
+output/*
 *~
 *.vc.db*
 .gdb_history

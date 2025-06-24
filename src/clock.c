@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <windows.h>
-// #include <sys/ioctl.h>
+//#include <windows.h>
+#include <sys/ioctl.h>
 #include <unistd.h>
 
 #include <inttypes.h>

@@ -37,7 +37,7 @@ progs : $(patsubst %.c,%.exe,$(wildcard prog/*.c))
 tests : $(patsubst %.c,%.exe,$(wildcard tests/*.c))
 runtests : $(patsubst %.c,%.exe@run,$(wildcard tests/*.c))
 checks : $(patsubst %.c,%.exe@check,$(wildcard tests/*.c))
-test-demo : $(patsubst %.c,%.exe,$(wildcard tests/howto/*.c))
+test-demo : $(patsubst %.c,%.exe@run,$(wildcard tests/howto/*.c))
 
 %@debug : %
 	$(DEBUG) $< -v -g
@@ -45,7 +45,7 @@ test-demo : $(patsubst %.c,%.exe,$(wildcard tests/howto/*.c))
 %@check : %
 ifeq ($(shell uname -s),Linux)
 	$(CHECK) $< -v
-elsefc
+else
 	@echo "Aborting: Valgrind is not available on Macos. Use AddressSanitizer instead (see README.md)"
 	@false
 endif
@@ -60,6 +60,7 @@ clean :
 	find . -name '*.o' -delete
 	find . -name '*.exe' -delete
 	find . -name '*~' -delete
+#   find ./output -name '*.txt' -delete
 
 deep-clean: clean
 	find . -name "*.stdout" -delete

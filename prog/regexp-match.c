@@ -5,8 +5,29 @@
  * @brief Regexp parsing and matching. 
  *
  * Program for regexp parsing, and regexp matching. 
+ 
  */
 
+ /*
+Ce programme prend deux arguments en paramètres dans le Terminal :
+la chaîne de caractères qui représente l’expression régulière à recon-
+naître, et la chaîne de caractères dans laquelle on cherche à reconnaître
+cette expression régulière.
+
+- En cas d’erreur, c’est-à-dire si la chaîne de caractères n’est pas une
+expression régulière valide, votre programme affichera autant que pos-
+sible un indiquant la nature de l’erreur dans le Terminal, puis quittera en
+appelant exit(EXIT_FAILURE).
+
+- Sinon, il indiquera dans le Terminal si l’expression régulière et le début
+de la chaîne correspondent ou pas. Si elles correspondent, il indiquera
+également la partie de la fin de la chaîne qui n’est pas reconnue par l’ex-
+pression régulière (i.e. le reste de la chaîne). Enfin, le programme quit-
+tera en appelant exit(EXIT_SUCCESS). 
+
+Pour le formatage de la sortie, des exemples d’exécution de ce programme sont 
+fournis au paragraphe 3.6.5.
+*/
 #include <stdlib.h>
 #include <stdio.h>
 

@@ -14,7 +14,7 @@
 
 struct link_t {
   void          *content;
-  struct link_t *next;
+  queue_t next;
 };
 
 queue_t queue_new( void ) {
@@ -27,28 +27,28 @@ int     queue_empty( queue_t q ) {
 
 queue_t enqueue( queue_t q, void* object ) {
   
-  struct link_t *new = malloc(sizeof(*new));
-  assert(new);
-  struct link_t *maillon = malloc(sizeof(*maillon));
+  
+  queue_t maillon = malloc(sizeof(*maillon));
   assert(maillon);
-  new->next = maillon;
-  new->content = object;
+  maillon->content = object;
   if (queue_empty(q))
   {
+    queue_t new = malloc(sizeof(*new));
+    assert(new);
+    new->next = maillon;
     // in this case create a new link linking back to itself
     maillon->next = maillon;
-    
+    printf("new queue created\n");
     return new;
   }
-  else{
-    maillon->next = (q->next)->next;
-    (q->next)->next = maillon;
-    q->next = maillon;
-    return new;
-  }
+  
+  maillon->next = (q->next)->next;
+  (q->next)->next = maillon;
+  q->next = maillon;
+  return q;
+  
   /* ! */
 
-  return new;
 }
 
 list_t  queue_to_list( queue_t q ) {
@@ -62,9 +62,9 @@ list_t  queue_to_list( queue_t q ) {
 queue_t queue_dequeue(queue_t q, void **object)
 {
   assert(!queue_empty(q));
-  struct link_t *queue = (q->next);
-  struct link_t *head = queue->next;
-  struct link_t *new_head = head->next;
+  queue_t queue = (q->next);
+  queue_t head = queue->next;
+  queue_t new_head = head->next;
   // get head value 
   assert(object);
   *object = head->content;
@@ -88,9 +88,9 @@ queue_t queue_free(queue_t q, action_t delete)
 {
 
   
-  struct link_t *queue = (q->next);
-  struct link_t *head = queue->next;
-  struct link_t *new_head = head->next;
+  queue_t queue = (q->next);
+  queue_t head = queue->next;
+  queue_t new_head = head->next;
 
   /* ! */
   while (queue != head)
@@ -113,8 +113,8 @@ int queue_print(queue_t q, action_t print)
   int ret = printf("(%s", queue_empty(q) ? "" : " ");
   if (!queue_empty(q)){
 
-    struct link_t *queue = (q->next);
-    struct link_t *head = (queue->next);
+    queue_t queue = (q->next);
+    queue_t head = (queue->next);
 
     while (head != queue)
     {

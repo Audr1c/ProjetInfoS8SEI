@@ -120,11 +120,11 @@
  
    unit_test( argc, argv );
  
-   test_suite( "Empty list core properties" );
+   test_suite( "Empty queue core properties" );
  
    queue_core( );
  
-   test_suite( "Constructing and deleting lists" );
+   test_suite( "Constructing and deleting queue" );
  
    queue_construct( );
  

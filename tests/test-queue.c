@@ -25,12 +25,10 @@
  
    test_assert( queue_empty( queue_new() ),
                 "A new queue is empty" );
-   
- 
-   test_abort( queue_dequeue( list_new(), NULL, NULL),
-               "An empty queue has no first element" );
-   
-  
+
+   test_abort(queue_dequeue(queue_new(), NULL, NULL),
+              "An empty queue has no first element");
+
    test_oracle_start( stdout );
    queue_print( queue_new(), NULL );
    test_oracle_check( "An empty queue is printed as ()", "()" );
@@ -71,37 +69,50 @@
    That's all there is to make a list of any kind of objetcs!
   */
  
- static void list_construct( void ) {
+ static void queue_construct( void ) {
    int array[ 4 ] = { 1, 2, 3, 4 };
    int i;
  
-   list_t l = list_new();
+   queue_t q = queue_new();
  
  
    for ( i = 0 ; i < 4 ; i++ ) {
-     l = list_add_first( int_new( array[ i ] ), l );
-     test_assert( (size_t)(i+1) == list_length( l ),
-                  "Can construct a list of %d element%s", i+1, (i+1)>1 ? "s" : "" );
-     test_assert( array[ i ] == *(int*)list_first( l ),
-                  "Insertion order is OK" );
+     q = enqueue( int_new( array[ i ] ), q );
+     // can only test if not empty
+     test_assert( !queue_empty( q ), 
+                  "Can construct a queue of %d element%s", i+1, (i+1)>1 ? "s" : "" );
+     
+     
    }
- 
-   test_assert( !list_is_empty( l ),
-                "A constructed list is not empty" );
+   
+
  
    test_oracle_start( stdout );
-   list_print( l, int_print );
-   test_oracle_check( "Can print a non-empty list", "( 4 3 2 1 )" );
+   list_print( q, int_print );
+   test_oracle_check( "Can print a non-empty queue", "( 1 2 3 4 )" );
  
    for ( i = 0 ; i < 4 ; i++ ) {
-     l = list_del_first( l, int_delete );
-     test_assert( (size_t)(4-i-1) == list_length( l ),
-                  "Can remove from a list of %d element%s", 4-i, (4-i)>1 ? "s" : "" );
+     int * p int_new(-1);
+     l = queue_dequeue( q, &p);
+     test_assert(array[i] == *(int *)p,
+                 "Insertion order was OK");
+      int_delete( p );
+     
    }
- 
-   test_assert( list_is_empty( l ),
-                "List is empty after removal of all elements" );
- 
+
+   test_assert(list_is_empty(q),
+               "queue is empty after removal of all elements");
+               
+  test_oracle_start( stdout );
+  queue_print( q, int_print );
+  test_oracle_check( "Can print an empty queue", "()" );
+  for (i = 0; i < 4; i++)
+  {
+    q = enqueue(int_new(array[i]), q);
+  }
+   queue_free( q, int_delete );
+
+   test_assert(q==NULL, "queue is freed");
    return;
  }
  
@@ -111,11 +122,11 @@
  
    test_suite( "Empty list core properties" );
  
-   list_core( );
+   queue_core( );
  
    test_suite( "Constructing and deleting lists" );
  
-   list_construct( );
+   queue_construct( );
  
    exit( EXIT_SUCCESS );
  }

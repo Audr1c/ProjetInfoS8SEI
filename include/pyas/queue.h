@@ -21,9 +21,9 @@ extern "C" {
   int     queue_empty( queue_t q );
   queue_t enqueue( queue_t q, void* object );
   list_t  queue_to_list( queue_t q );
-  queue_t queue_dequeue(queue_t q, void **object, action_t delete);
+  queue_t queue_dequeue(queue_t q, void **object);
   queue_t queue_free(queue_t q, action_t delete);
-  int queue_print(queue_t l, action_t print);
+  int queue_print(queue_t q, action_t print);
 
 #ifdef __cplusplus
 }

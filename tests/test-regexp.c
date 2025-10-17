@@ -365,6 +365,8 @@ int main ( int argc, char *argv[] ) {
   re_dot();
   re_star();
   re_dot_star();
+  re_plus();
+  re_dot_plus();
 
   exit( EXIT_SUCCESS );
 }

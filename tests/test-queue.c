@@ -77,18 +77,25 @@
  
  
    for ( i = 0 ; i < 4 ; i++ ) {
-     q = enqueue( int_new( array[ i ] ), q );
+     q = enqueue(q, int_new(array[i]));
      // can only test if not empty
      test_assert( !queue_empty( q ), 
                   "Can construct a queue of %d element%s", i+1, (i+1)>1 ? "s" : "" );
      
      
    }
-   
 
- 
-   test_oracle_start( stdout );
-   list_print( q, int_print );
+   test_oracle_start(stdout);
+   printf("Printing ...\n");
+   queue_print(queue_new(), NULL);
+   test_oracle_check("An empty queue is printed as ()", "()");
+
+
+
+
+   test_oracle_start(stdout);
+   printf("Printing ...\n");
+   queue_print( q, int_print );
    test_oracle_check( "Can print a non-empty queue", "( 1 2 3 4 )" );
  
    for ( i = 0 ; i < 4 ; i++ ) {

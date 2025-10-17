@@ -38,7 +38,6 @@ queue_t enqueue( queue_t q, void* object ) {
     new->next = maillon;
     // in this case create a new link linking back to itself
     maillon->next = maillon;
-    printf("new queue created\n");
     return new;
   }
   
@@ -108,14 +107,13 @@ queue_t queue_free(queue_t q, action_t delete)
 
 int queue_print(queue_t q, action_t print)
 {
-  
 
   int ret = printf("(%s", queue_empty(q) ? "" : " ");
   if (!queue_empty(q)){
-
+    printf("hi\n");
     queue_t queue = (q->next);
     queue_t head = (queue->next);
-
+    printf("hi2\n");
     while (head != queue)
     {
       ret += print ? print(head->content) : printf("#OBJECT#");

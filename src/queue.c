@@ -26,7 +26,7 @@ int     queue_empty( queue_t q ) {
 }
 
 queue_t enqueue( queue_t q, void* object ) {
-  assert(!queue_empty(q));
+  
   struct link_t *new = malloc(sizeof(*new));
   assert(new);
   struct link_t *maillon = malloc(sizeof(*maillon));
@@ -61,6 +61,7 @@ list_t  queue_to_list( queue_t q ) {
 
 queue_t queue_dequeue(queue_t q, void **object)
 {
+  assert(!queue_empty(q));
   struct link_t *queue = (q->next);
   struct link_t *head = queue->next;
   struct link_t *new_head = head->next;

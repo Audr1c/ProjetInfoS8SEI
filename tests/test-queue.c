@@ -84,17 +84,8 @@
      
      
    }
-
+   // printng ...
    test_oracle_start(stdout);
-   printf("Printing ...\n");
-   queue_print(queue_new(), NULL);
-   test_oracle_check("An empty queue is printed as ()", "()");
-
-
-
-
-   test_oracle_start(stdout);
-   printf("Printing ...\n");
    queue_print( q, int_print );
    test_oracle_check( "Can print a non-empty queue", "( 1 2 3 4 )" );
  
@@ -115,12 +106,14 @@
   test_oracle_check( "Can print an empty queue", "()" );
   for (i = 0; i < 4; i++)
   {
-    q = enqueue(int_new(array[i]), q);
+    q = enqueue(q, int_new(array[i]));
   }
-   queue_free( q, int_delete );
+  test_assert(!queue_empty(q),
+              "Queue full agin");
+  q = queue_free(q, int_delete);
 
-   test_assert(q==NULL, "queue is freed");
-   return;
+  test_assert(q == queue_new(), "Queue is freed");
+  return;
  }
  
  int main ( int argc, char *argv[] ) {

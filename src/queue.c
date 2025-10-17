@@ -110,10 +110,10 @@ int queue_print(queue_t q, action_t print)
 
   int ret = printf("(%s", queue_empty(q) ? "" : " ");
   if (!queue_empty(q)){
-    printf("hi\n");
+    
     queue_t queue = (q->next);
     queue_t head = (queue->next);
-    printf("hi2\n");
+  
     while (head != queue)
     {
       ret += print ? print(head->content) : printf("#OBJECT#");

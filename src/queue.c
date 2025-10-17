@@ -31,7 +31,7 @@ queue_t enqueue( queue_t q, void* object ) {
   struct link_t *maillon = malloc(sizeof(*maillon));
   assert(maillon);
   new->next = maillon;
-  new->contents = object;
+  new->content = object;
   if (queue_empty(q))
   {
     // in this case create a new link linking back to itself
@@ -65,7 +65,7 @@ queue_t queue_dequeue(queue_t q, void **object)
   struct link_t *new_head = head->next;
   // get head value 
   assert(object);
-  *object = head->contents;
+  *object = head->content;
   if (head == queue)
   {
     free(head);
@@ -94,7 +94,7 @@ queue_t queue_free(queue_t q, action_t delete)
   while (queue != head)
   {
     new_head = head->next;
-    delete(head->contents);
+    delete(head->content);
     free(head);
     head = new_head;
   }
@@ -111,16 +111,16 @@ int queue_print(queue_t q, action_t print)
   int ret = printf("(%s", queue_empty(q) ? "" : " ");
   if (!queue_empty(q)){
 
-    link_t *queue = (q->next);
-    link_t *head = (queue->next);
+    struct link_t *queue = (q->next);
+    struct link_t *head = (queue->next);
 
     while (head != queue)
     {
-      ret += print ? print(head->contents) : printf("#OBJECT#");
+      ret += print ? print(head->content) : printf("#OBJECT#");
       ret += printf(" ");
       head = head->next;
     }
-    ret += print ? print(queue->contents) : printf("#OBJECT#");
+    ret += print ? print(queue->content) : printf("#OBJECT#");
     ret += printf(" ");
   }
   return ret + printf(")");

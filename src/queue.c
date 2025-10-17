@@ -26,6 +26,7 @@ int     queue_empty( queue_t q ) {
 }
 
 queue_t enqueue( queue_t q, void* object ) {
+  assert(!queue_empty(q));
   struct link_t *new = malloc(sizeof(*new));
   assert(new);
   struct link_t *maillon = malloc(sizeof(*maillon));

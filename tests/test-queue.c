@@ -26,7 +26,7 @@
    test_assert( queue_empty( queue_new() ),
                 "A new queue is empty" );
 
-   test_abort(queue_dequeue(queue_new(), NULL, NULL),
+   test_abort(queue_dequeue(queue_new(), NULL),
               "An empty queue has no first element");
 
    test_oracle_start( stdout );
@@ -92,8 +92,8 @@
    test_oracle_check( "Can print a non-empty queue", "( 1 2 3 4 )" );
  
    for ( i = 0 ; i < 4 ; i++ ) {
-     int * p int_new(-1);
-     l = queue_dequeue( q, &p);
+     int * p = int_new(-1);
+     q = queue_dequeue( q, &p);
      test_assert(array[i] == *(int *)p,
                  "Insertion order was OK");
       int_delete( p );

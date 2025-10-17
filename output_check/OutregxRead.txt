@@ -1,0 +1,26 @@
+$ ./ bin/regexp - read .exe ’STORE_FAST ’
+One in "S", one time .
+One in "T", one time .
+One in "O", one time .
+One in "R", one time .
+One in "E", one time .
+One in "_", one time .
+One in "F", one time .
+One in "A", one time .
+One in "S", one time .
+One in "T", one time .
+$ ./ bin/regexp - read .exe ’[\+\ -]?[0 -9]+ ’
+One in "+ -" , zero or one time .
+One in "0123456789" , one or more times .
+$ ./ bin/regexp - read .exe ’[\ -\+]?[0 -9]+ ’
+One in "-+" , zero or one time .
+One in "0123456789" , one or more times .
+$ ./ bin/regexp - read .exe ’0x[0 -9a-fA -F]+’
+One in "0" , one time .
+One in "x", one time .
+One in "0123456789 abcdefABCDEF ", one or more times .
+$ ./ bin/regexp - read .exe ’^[a-f\-q-w \+]+ q^t*[x]?’
+One not in "abcdef - qrstuvw +", one or more times .
+One in "q", one time .
+One not in "t", zero or more times .
+One in "x", zero or one time .

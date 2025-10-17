@@ -21,23 +21,19 @@
  
 
  */
- static void list_core( void ) {
+ static void queue_core( void ) {
  
-   test_assert( list_is_empty( list_new() ),
-                "A new list is empty" );
-   test_assert( 0 == list_length( list_new() ),
-                "An empty list has zero elements" );
+   test_assert( queue_empty( queue_new() ),
+                "A new queue is empty" );
+   
  
-   test_abort( list_first( list_new() ),
-               "An empty list has no first element" );
-   test_abort( list_del_first( list_new(), NULL ),
-               "So trying to delete it will fail" );
-   test_abort( list_next( list_new() ),
-               "An empty list has no next element" );
- 
+   test_abort( queue_dequeue( list_new(), NULL, NULL),
+               "An empty queue has no first element" );
+   
+  
    test_oracle_start( stdout );
-   list_print( list_new(), NULL );
-   test_oracle_check( "An empty list is printed as ()", "()" );
+   queue_print( queue_new(), NULL );
+   test_oracle_check( "An empty queue is printed as ()", "()" );
  }
  
  /*

@@ -251,6 +251,111 @@ static void re_dot_star( void ) {
 
 }
 
+static void re_plus(void)
+{
+  char *end;
+
+  test_suite("`+` core properties");
+
+  test_assert(!re_match("+", "aaaa", &end),
+              "Cannot match `+` at start of regexp");
+
+  test_oracle_start(stdout);
+  printf("%s", end);
+  test_oracle_check("  And end == source", "aaaa");
+
+  test_assert(!re_match("a++", "aaaabb", &end),
+              "Cannot match `+` without preceding char");
+
+  test_oracle_start(stdout);
+  printf("%s", end);
+  test_oracle_check("  And end == source", "aaaabb");
+
+  test_assert(re_match("a+", "", NULL),
+              "Can match the empty source");
+
+  test_assert(re_match("a+", "baaaaa", &end),
+              "Can match zero character");
+
+  test_oracle_start(stdout);
+  printf("%s", end);
+  test_oracle_check("  And end == source", "baaaaa");
+
+  test_assert(re_match("a+", "abb", &end),
+              "Can match one character");
+
+  test_oracle_start(stdout);
+  printf("%s", end);
+  test_oracle_check("  And suffix is OK", "bb");
+
+  test_assert(re_match("a+", "aaaaaaabb", &end),
+              "Can match several characters");
+
+  test_oracle_start(stdout);
+  printf("%s", end);
+  test_oracle_check("  And suffix is OK", "bb");
+
+  test_suite("`+` continuity");
+
+  test_assert(re_match("z+ip", "zipend", &end),
+              "Can match `*` at start of regexp");
+
+  test_oracle_start(stdout);
+  printf("%s", end);
+  test_oracle_check(" And suffix is OK", "end");
+
+  test_assert(re_match("zi+p", "zipend", &end),
+              "Can match `*` inside regexp");
+
+  test_oracle_start(stdout);
+  printf("%s", end);
+  test_oracle_check("  And suffix is OK", "end");
+
+  test_assert(re_match("zip+", "zipend", &end),
+              "Can match `*` at end of regexp");
+
+  test_oracle_start(stdout);
+  printf("%s", end);
+  test_oracle_check("  And suffix is OK", "end");
+
+  return;
+}
+
+static void re_plus_star(void)
+{
+  char *end;
+
+  test_suite("`.+` properties");
+
+  test_assert(re_match(".+", "", &end) && !*end,
+              "`.+` matches the empty string");
+
+  test_assert(re_match(".+", "any string ;-)", &end) && !*end,
+              "[Theorem] `.+` is the set of finite strings");
+    
+  test_assert(!re_match(".+", "", &end) && !*end,
+              "can't match empty strings"); 
+
+  test_assert(re_match("abc.+", "abcdef", &end) && !*end,
+              "`prefix.*` can match any prefix");
+
+  test_assert(!re_match("abc.+", "abc", &end) && !*end,
+              "`prefix.*` can't match any prefix if there is none");
+
+  test_assert(re_match(".*def", "abcdef", &end) && !*end,
+              "`.*suffix` can match any suffix");
+
+  test_assert(!re_match(".+def", "def", &end) && !*end,
+              "`.+suffix` can't match any suffix suffix if there is none");
+
+  test_assert(re_match("abc.+def", "abcABSORBMEdefend", &end),
+              "[Corollary] `.+` is absorbant");
+
+  test_oracle_start(stdout);
+  printf("%s", end);
+  test_oracle_check("  And suffix is OK", "end");
+}
+
 int main ( int argc, char *argv[] ) {
 
   unit_test( argc, argv );

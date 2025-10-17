@@ -61,6 +61,10 @@ int re_match( char *regexp, char *source, char **end ) {
   if ( '*' == regexp[ 1 ] ) {
     return re_match_zero_or_more( regexp[ 0 ], regexp+2, source, end);
   }
+  if ('+' == regexp[1])
+  {
+    return re_match_one_or_more(regexp[0], regexp + 2, source, end);
+  }
 
   if (   '\0' != *source &&
        ( '.'  == regexp[ 0 ] || *source == regexp[ 0 ] ) ) {

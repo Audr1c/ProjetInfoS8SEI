@@ -26,12 +26,14 @@ static int re_match_zero_or_more( char c, char *regexp, char *source , char **en
 }
 
 static int re_match_one_or_more( char c, char *regexp, char *source , char **end ) {
-  char *t = source;
-  if (*t == c || '.' == c){
+  /*char *t = source;
+  if (*t == c || ('.' == c && *t)){
     t++;
   }
   else{
-    return 1;
+    if (end)
+      *end = source;
+    return 0;
   }
   while ('\0' != *t && (*t == c || '.' == c))
     t++;
@@ -42,6 +44,15 @@ static int re_match_one_or_more( char c, char *regexp, char *source , char **end
       return 1;
   } while (t-- > source);
 
+  if (end)
+    *end = source;
+  return 0;
+  */
+  if ('\0' != *source &&
+      ('.' == c || *source == c))
+  {
+    return re_match_zero_or_more(c, regexp, source + 1, end);
+  }
   if (end)
     *end = source;
   return 0;

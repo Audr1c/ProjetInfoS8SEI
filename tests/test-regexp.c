@@ -271,11 +271,11 @@ static void re_plus(void)
   printf("%s", end);
   test_oracle_check("  And end == source", "aaaabb");
 
-  test_assert(re_match("a+", "", NULL),
-              "Can match the empty source");
+  test_assert(!re_match("a+", "", NULL),
+              "Can't match an empty source");
 
-  test_assert(re_match("a+", "baaaaa", &end),
-              "Can match zero character");
+  test_assert(!re_match("a+", "baaaaa", &end),
+              "Can't match zero character");
 
   test_oracle_start(stdout);
   printf("%s", end);
@@ -327,14 +327,12 @@ static void re_plus_star(void)
 
   test_suite("`.+` properties");
 
-  test_assert(re_match(".+", "", &end) && !*end,
-              "`.+` matches the empty string");
+  test_assert(!re_match(".+", "", &end) && !*end,
+              "can't match empty strings");
 
   test_assert(re_match(".+", "any string ;-)", &end) && !*end,
               "[Theorem] `.+` is the set of finite strings");
     
-  test_assert(!re_match(".+", "", &end) && !*end,
-              "can't match empty strings"); 
 
   test_assert(re_match("abc.+", "abcdef", &end) && !*end,
               "`prefix.*` can match any prefix");
@@ -345,8 +343,15 @@ static void re_plus_star(void)
   test_assert(re_match(".*def", "abcdef", &end) && !*end,
               "`.*suffix` can match any suffix");
 
+  test_assert(!re_match(".def", "def", &end) && !*end,
+              "`.suffix` can't match any suffix suffix if there is none");
+  if (*end)
+    printf("\n%s   %d\n", end, re_match(".def", "def", &end));
+
   test_assert(!re_match(".+def", "def", &end) && !*end,
               "`.+suffix` can't match any suffix suffix if there is none");
+  if(*end)
+    printf("\n%s   %d\n", end, re_match(".+def", "def", &end));
 
   test_assert(re_match("abc.+def", "abcABSORBMEdefend", &end),
               "[Corollary] `.+` is absorbant");
@@ -366,7 +371,7 @@ int main ( int argc, char *argv[] ) {
   re_star();
   re_dot_star();
   re_plus();
-  re_dot_plus();
+  re_plus_star();
 
   exit( EXIT_SUCCESS );
 }

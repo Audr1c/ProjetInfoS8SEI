@@ -51,7 +51,9 @@ static int re_match_one_or_more( char c, char *regexp, char *source , char **end
   if ('\0' != *source &&
       ('.' == c || *source == c))
   {
-    return re_match_zero_or_more(c, regexp, source + 1, end);
+    int ret = re_match(regexp, source + 1, end);
+    if (ret)
+      return ret;
   }
   if (end)
     *end = source;

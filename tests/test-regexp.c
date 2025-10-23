@@ -345,13 +345,19 @@ static void re_plus_star(void)
 
   test_assert(!re_match(".def", "def", &end) ,
               "`.suffix` can't match any suffix suffix if there is none");
-  if (*end)
-    printf("\n%s   %d\n", end, re_match(".def", "def", &end));
+
+  test_oracle_start(stdout);
+  printf("%s", end);
+  test_oracle_check("  And suffix is OK", "ef");
+  
 
   test_assert(!re_match(".+def", "def", &end) ,
               "`.+suffix` can't match any suffix suffix if there is none");
-  if(*end)
-    printf("\n%s   %d\n", end, re_match(".+def", "def", &end));
+
+  test_oracle_start(stdout);
+  printf("%s", end);
+  test_oracle_check("  And suffix is OK", "def");
+
 
   test_assert(re_match("abc.+def", "abcABSORBMEdefend", &end),
               "[Corollary] `.+` is absorbant");

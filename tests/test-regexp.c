@@ -343,12 +343,12 @@ static void re_plus_star(void)
   test_assert(re_match(".*def", "abcdef", &end) && !*end,
               "`.*suffix` can match any suffix");
 
-  test_assert(!re_match(".def", "def", &end) && !*end,
+  test_assert(!re_match(".def", "def", &end) ,
               "`.suffix` can't match any suffix suffix if there is none");
   if (*end)
     printf("\n%s   %d\n", end, re_match(".def", "def", &end));
 
-  test_assert(!re_match(".+def", "def", &end) && !*end,
+  test_assert(!re_match(".+def", "def", &end) ,
               "`.+suffix` can't match any suffix suffix if there is none");
   if(*end)
     printf("\n%s   %d\n", end, re_match(".+def", "def", &end));

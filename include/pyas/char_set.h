@@ -20,7 +20,7 @@ extern "C" {
 #define ZERO_OR_MORE 3
 #define ONE_OR_MORE 4
 
-typdef struct
+typedef struct
 {
     char start;
     char end;
@@ -32,11 +32,11 @@ int group_interval_delete( void *group_intervals );
 
 int group_interval_print( void *group_interval );
 
-int char_in_group_interval( char c, gi group_interval );
+int char_in_group_interval( char c, gi g );
 
-int char_in_group_intervals( char c,  list_t group_intervals );
+int char_in_group_intervals( char c,  list_t gs );
 
-typdef struct
+typedef struct
 {
     list_t group_intervals; 
     int type; // ZERO or ONE or ZERO_OR_ONE or ZERO_OR_MORE or ONE_OR_MORE
@@ -53,8 +53,8 @@ int char_set_print( void *char_set );
 
 int convert( char *regexp, char_set *char_set_regexp );
 
-#define c_in(c, group_interval) char_in_group_interval( (c),  (group_interval))
-#define c_ins(c, group_intervals) char_in_group_intervals((c), (group_intervals))
+#define c_in(c, g) char_in_group_interval( (c),  (g))
+#define c_ins(c, gs) char_in_group_intervals((c), (gs))
 
 #ifdef __cplusplus
 }

@@ -63,14 +63,13 @@
 static void group_interval_list( void ) {
   /* No relevant post-condition was identified, except return values. */
 
-  char      *end;
 
   test_suite( "List of group interval" );
 
   list_t groupI = list_new();
 
   groupI = cons( group_interval_new('a', 'd'), groupI );
-  groupI = cons(group_interval_new('e', 'e'), groupI);
+  groupI = cons(group_interval_new('f', 'f'), groupI);
   groupI = cons(group_interval_new('\n', '\n'), groupI);
 
   test_assert(list_length(groupI) == 3, "The list has the correct length");
@@ -79,24 +78,53 @@ static void group_interval_list( void ) {
   
   test_oracle_start(stdout);
   list_print(groupI, group_interval_print);
-  test_oracle_check("  List is printed as ( a-d e \\n )", "( a-d e \\n )");
-
-
+  test_oracle_check("  List is printed as ( \\n f a-d )", "( \\n f a-d )");
+  groupI = list_del_first(groupI, group_interval_delete);
   groupI = cons(group_interval_new('\t', '\t'), groupI);
 
   // appartenace test 
   // Single groupe
-  test_assert(char_in_group_interval('a', *group_interval_new('a', 'a')), 
-            "a is in the groupe a-a");
+  group_interval *gii;
+  gii = group_interval_new('a', 'a');
+  test_assert(c_in('a', *gii),
+              "a is in the groupe a-a");
+  group_interval_delete(gii);
 
-  test_assert(!char_in_group_interval('b', *group_interval_new('a', 'a')),
+  gii = group_interval_new('a', 'a');
+  test_assert(!char_in_group_interval('b', *gii),
               "b is not in the groupe a-a");
 
-  test_assert(char_in_group_interval('h', *group_interval_new('a', 'z')),
-              "h is in the groupe a-z");
+  group_interval_delete(gii);
 
-  test_assert(!char_in_group_interval('4', *group_interval_new('a', 'z')),
+  gii = group_interval_new('a', 'z');
+  test_assert(char_in_group_interval('h', *gii),
+              "h is in the groupe a-z");
+  group_interval_delete(gii);
+
+  gii = group_interval_new('a', 'z');
+  test_assert(!char_in_group_interval('4', *gii),
               "4 is not in the groupe a-z");
+  group_interval_delete(gii);
+
+  test_assert(c_ins('f', groupI),
+              "f is  in the Groups intervals");
+  test_assert(c_ins('c', groupI),
+              "c is  in the Groups intervals");
+  test_assert(c_ins('a', groupI),
+              "a is  in the Groups intervals");
+  test_assert(c_ins('d', groupI),
+              "d is  in the Groups intervals");
+  test_assert(c_ins('\t', groupI),
+              "\\t is  in the Groups intervals");
+  test_assert(!c_ins('\n', groupI),
+              "\\n is not in the Groups intervals");
+  test_assert(!c_ins('e', groupI),
+              "e is not in the Groups intervals");
+  test_assert(!c_ins('`', groupI),
+              "` is not in the Groups intervals");
+
+  list_delete(groupI, group_interval_delete);
+ test_assert(list_is_empty(groupI));
 }
 
 int main ( int argc, char *argv[] ) {
